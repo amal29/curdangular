@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {NgForm} from '@angular/forms';
 import { from } from 'rxjs';
-import { EmployeeService } from 'src/app/services/employee.service';
-import { Employee } from 'src/app/models/employee.model';
+import { StudentService } from 'src/app/services/student.service';
+import { Student } from 'src/app/models/student.model';
 
 @Component({
   selector: 'app-edit',
@@ -13,42 +13,42 @@ import { Employee } from 'src/app/models/employee.model';
 export class EditComponent implements OnInit {
   id:number;
   header:string;
-  employee:Employee={
+  student:Student={
     id:+'',
     name:'',
-    phone:+'',
-    email:'',
+    duration:+'',
+    course:'',
 
   }
 
-  constructor(private router:Router, private route:ActivatedRoute,private employeeService:EmployeeService) { }
+  constructor(private router:Router, private route:ActivatedRoute,private studentService:StudentService) { }
 
   ngOnInit(): void {
    this.id= +this.route.snapshot.paramMap.get('id');
-   this.header=this.id===0? 'Add Employee': 'Edit Employee';
+   this.header=this.id===0? 'Add Student': 'Edit Student';
 
    if(this.id!=0)
    {
-     this.employee=this.employeeService.onGetEmployee(this.id);
+     this.student=this.studentService.onGetStudent(this.id);
    }
   }
   onSubmit(form: NgForm){
-    let employee:Employee={
+    let student:Student={
       id:form.value.id,
       name:form.value.name,
-      email:form.value.email,
-      phone:form.value.phone
+      course:form.value.course,
+      duration:form.value.duration
 
 
     }
     if(this.id===0){
-      this.employeeService.onAdd(employee);
+      this.studentService.onAdd(student);
     }
     else{
-      this.employeeService.onUpdate(employee);
+      this.studentService.onUpdate(student);
     }
     this.router.navigateByUrl('');
-          
+
  }
 
 }
